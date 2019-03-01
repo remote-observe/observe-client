@@ -1,9 +1,13 @@
-const {getControllers} = require('./controllers');
+const { getControllers } = require("./controllers");
+
+let lastLoad = new Date();
+
 exports.getStatus = async function() {
-  return 'active'
-}
+  return { lastLoad };
+};
 
 exports.executeCommand = async function(command) {
-  console.log('Reloading controllers!');
-  return await getControllers(true);
-}
+  console.log("Reloading controllers!");
+  await getControllers(true);
+  lastLoad = new Date();
+};

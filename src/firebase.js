@@ -13,6 +13,6 @@ exports.setupFirebase = (firebaseConfigPath, firebaseConfigUrl) => {
   _db = admin.firestore();
   const settings = {};
   _db.settings(settings);
-}
+};
 
 exports.db = () => _db;

@@ -1,4 +1,5 @@
 const { getControllers } = require("./controllers.js");
+const { isEqual } = require("lodash");
 const {
   updateObservatory,
   updateCommand,
@@ -7,6 +8,7 @@ const {
 } = require("./observatory.resource.js");
 
 const POLL_TIME = 3000;
+let status;
 let interval;
 
 exports.start = function start() {
@@ -36,7 +38,11 @@ async function getStatus() {
     }
   }
 
-  return updateObservatory("rovor", { status: observatoryStatus });
+  if (isEqual(observatoryStatus, status)) return; // don't update the status if it hasn't changed
+
+  status = observatoryStatus;
+
+  return updateObservatory("rovor", { status: observatoryStatus, lastPing: new Date() });
 }
 
 async function executeCommands() {

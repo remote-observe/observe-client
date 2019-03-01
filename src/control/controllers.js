@@ -1,9 +1,9 @@
-const config = require('../config');
+const config = require("../config");
 
 const defaultControllers = [
   {
-    type: 'reloader',
-    path: './reload',
+    type: "reloader",
+    path: "./reload"
   }
 ];
 
@@ -14,14 +14,15 @@ exports.getControllers = async function getControllers(reset = false) {
 
   controllers = [];
 
-  for (let controller of [...defaultControllers, ...(config.controllers || [])]) {
-    controllers.push(
-      {
-        type: controller.type,
-        module: require(controller.path)
-      }
-    );
+  for (let controller of [
+    ...defaultControllers,
+    ...(config.controllers || [])
+  ]) {
+    controllers.push({
+      type: controller.type,
+      module: require(controller.path)
+    });
   }
 
   return controllers;
-}
+};

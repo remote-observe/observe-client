@@ -30,26 +30,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`observe-client hello`](#observe-client-hello)
 * [`observe-client help [COMMAND]`](#observe-client-help-command)
-
-## `observe-client hello`
-
-Describe the command here
-
-```
-USAGE
-  $ observe-client hello
-
-OPTIONS
-  -n, --name=name  name to print
-
-DESCRIPTION
-  ...
-  Extra documentation goes here
-```
-
-_See code: [src/commands/hello.js](https://github.com/remote-observe/observe-client/blob/v0.0.0/src/commands/hello.js)_
+* [`observe-client start`](#observe-client-start)
 
 ## `observe-client help [COMMAND]`
 
@@ -67,4 +49,21 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src/commands/help.ts)_
+
+## `observe-client start`
+
+Start the client
+
+```
+USAGE
+  $ observe-client start
+
+OPTIONS
+  -c, --config=config  Path to configuration file
+
+DESCRIPTION
+  Start the client
+```
+
+_See code: [src/commands/start.js](https://github.com/remote-observe/observe-client/blob/v0.0.0/src/commands/start.js)_
 <!-- commandsstop -->

@@ -1,11 +1,6 @@
 const config = require("../config");
 
-const defaultControllers = [
-  {
-    type: "reloader",
-    path: "./reload"
-  }
-];
+const defaultControllers = [{ type: "reloader", path: "./reload" }];
 
 let controllers;
 

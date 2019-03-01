@@ -1,13 +1,13 @@
-const config = require("../config");
+const config = require('../config')
 
-const defaultControllers = [{ type: "reloader", path: "./reload" }];
+const defaultControllers = [{ type: 'reloader', path: './reload' }]
 
-let controllers;
+let controllers
 
 exports.getControllers = async function getControllers(reset = false) {
-  if (controllers && !reset) return controllers;
+  if (controllers && !reset) return controllers
 
-  controllers = [];
+  controllers = []
 
   for (let controller of [
     ...defaultControllers,
@@ -16,8 +16,8 @@ exports.getControllers = async function getControllers(reset = false) {
     controllers.push({
       type: controller.type,
       module: require(controller.path)
-    });
+    })
   }
 
-  return controllers;
-};
+  return controllers
+}

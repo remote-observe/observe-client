@@ -2,17 +2,22 @@ const { getControllers } = require("./controllers.js");
 const {
   updateObservatory,
   updateCommand,
-  getObservatoryCommands
+  getObservatoryCommands,
+  getObservatoryRef
 } = require("./observatory.resource.js");
 
 const POLL_TIME = 3000;
 let interval;
 
 exports.start = function start() {
+  getObservatoryRef("rovor").onSnapshot(() =>
+    executeCommands().catch(error =>
+      console.error("Error executing commands", error)
+    )
+  );
+
   interval = setInterval(() => {
-    getStatus()
-      .then(executeCommands)
-      .catch(error => console.error("Error polling status", error));
+    getStatus().catch(error => console.error("Error polling status", error));
   }, POLL_TIME);
 };
 
@@ -47,7 +52,13 @@ async function executeCommands() {
         const controller = controllers.find(
           controller => controller.type === command.type
         );
+
         if (controller) {
+          updateCommand("rovor", commandId, {
+            ...command,
+            status: "pending"
+          });
+
           controller.module
             .executeCommand(command)
             .then(resp =>
@@ -60,14 +71,11 @@ async function executeCommands() {
               updateCommand("rovor", commandId, {
                 ...command,
                 status: "error",
-                errorMessage: error
+                data: {
+                  errorMessage: error.message
+                }
               })
             );
-
-          updateCommand("rovor", commandId, {
-            ...command,
-            status: "pending"
-          });
         }
       } catch (error) {
         console.error("Error executing command: ", command, error);

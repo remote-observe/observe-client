@@ -1,5 +1,6 @@
 const { getControllers } = require('./controllers.js')
 const { isEqual } = require('lodash')
+const config = require('../config')
 const {
   updateObservatory,
   updateCommand,
@@ -18,8 +19,13 @@ exports.start = function start() {
     )
   )
 
-  interval = setInterval(() => {
-    getStatus().catch(error => console.error('Error polling status', error))
+  interval = setTimeout(async function pollStatus() {
+    try {
+      await getStatus()
+    } catch (error) {
+      console.error('Error polling status', error)
+    }
+    interval = setTimeout(pollStatus, POLL_TIME)
   }, POLL_TIME)
 }
 
@@ -31,10 +37,15 @@ async function getStatus() {
   const observatoryStatus = {}
 
   for (let controller of await getControllers()) {
-    try {
-      observatoryStatus[controller.type] = await controller.module.getStatus()
-    } catch (error) {
-      console.error('Error polling status for controller', controller.type)
+    if (controller.module.getStatus) {
+      try {
+        observatoryStatus[controller.type] = await controller.module.getStatus(
+          getControllerConfig(controller.type)
+        )
+      } catch (error) {
+        console.error('Error polling status for controller', controller.type)
+        console.error(error)
+      }
     }
   }
 
@@ -69,7 +80,7 @@ async function executeCommands() {
           })
 
           controller.module
-            .executeCommand(command)
+            .executeCommand(command, getControllerConfig(command.type))
             .then(resp =>
               updateCommand('rovor', commandId, {
                 ...command,
@@ -91,4 +102,9 @@ async function executeCommands() {
       }
     }
   }
+}
+
+function getControllerConfig(type) {
+  const controllers = config.getConfig().controllers || []
+  return controllers.find(controller => controller.type === type)
 }

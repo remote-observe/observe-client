@@ -2,7 +2,8 @@
   "extends": "standard",
   "rules": {
     "comma-dangle": "off",
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "indent": "off",
   },
   "globals": {
     "describe": "readonly"

@@ -1,7 +1,7 @@
 {
   "name": "observe-client",
   "description": "CLI client for interfacing with an observatory and communicating with a firebase instance",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Bret Little @blittle",
   "bin": {
     "observe-client": "./bin/run"

@@ -11,6 +11,7 @@ CLI client for interfacing with an observatory and communicating with a firebase
 
 <!-- toc -->
 
+- [observe-client](#observe-client)
 - [Usage](#usage)
 - [Commands](#commands)
   <!-- tocstop -->
@@ -24,7 +25,7 @@ $ npm install -g observe-client
 $ observe-client COMMAND
 running command...
 $ observe-client (-v|--version|version)
-observe-client/0.0.2 linux-x64 node-v10.15.0
+observe-client/0.0.3 linux-x64 node-v10.14.1
 $ observe-client --help [COMMAND]
 USAGE
   $ observe-client COMMAND
@@ -72,6 +73,6 @@ DESCRIPTION
   Start the client
 ```
 
-_See code: [src/commands/start.js](https://github.com/remote-observe/observe-client/blob/v0.0.2/src/commands/start.js)_
+_See code: [src/commands/start.js](https://github.com/remote-observe/observe-client/blob/v0.0.3/src/commands/start.js)_
 
 <!-- commandsstop -->

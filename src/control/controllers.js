@@ -1,27 +1,22 @@
 const config = require('../config')
-const npm = require('npm')
+const npm = require('npm-programmatic')
 
 function loadModule(module) {
   console.log(`NPM Installing module: ${module}`)
 
   return new Promise((resolve, reject) => {
-    npm.load(
-      {
-        loaded: false
-      },
-      function(err) {
-        if (err) return reject(err)
-
-        npm.commands.install([`${module}@latest`], function(err, data) {
-          if (err) reject(err)
-          else resolve(require(module))
-        })
-        npm.on('log', function(message) {
-          // log the progress of the installation
-          // console.log(message);
-        })
-      }
-    )
+    npm
+      .install([`${module}@latest`], {
+        cwd: process.cwd()
+      })
+      .then(() => {
+        console.log(`Successfully installed module: ${module}`)
+        resolve(require(module))
+      })
+      .catch(error => {
+        console.error(`Error loading module: ${error}`)
+        reject(error)
+      })
   })
 }
 
